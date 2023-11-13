@@ -1,26 +1,26 @@
-https://github.com/hyperium/tonic/blob/master/examples/helloworld-tutorial.md
+## 环境准备
 
-https://www.swiftdiaries.com/rust/tonic/
+更新下 rust 工具链接
 
 ```sh
-
-rustup.exe update
-
+rustup update
 ```
 
-创建项目
+在 plugins 目录下创建插件项目，这个是默认的插件目录，也可以在别的地方写。
 
 ```sh
 cargo new rust_grpc
 
 cd rust_grpc
 mkdir proto
-# 把proto定义文件放在proto目录
+# 把proto定义文件放在proto目录，这两个是一定需要的
+# model.proto
+# grpc_controller.proto
 ```
 
-生成模型定义对应的 rust 代码
-
-https://github.com/hyperium/tonic/blob/master/tonic-build/README.md
+使用`tonic-build`生成模型定义对应的 rust 代码,需要安装`protoc`工具。
+下载地址：https://github.com/protocolbuffers/protobuf/releases
+下载后放在系统运行目录。
 
 更新 cargo.yaml 配置文件，增加`build-dependencies`
 
@@ -55,6 +55,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 `\rust_grpc\target\debug\build\rust_grpc-6a050400d6a6cfde\out`
 
+修改成这样子：
+
 ```rust
 fn main() {
 
@@ -77,10 +79,20 @@ fn main() {
 
 生成的文件名会是 proto 文件中的定义的 package 名称。比如定义的 package 是`plugin`，会生成`plugin.rs`
 
+配置其它 Rust 项目需要的东西后，再`build`。
+
 ```sh
 rm ..\myplugin.dll && cargo build && move .\target\debug\myplugin.exe ../myplugin.dll
 ```
 
 ```sh
-yao run plugins.myplugin.hell
+yao run plugins.myplugin.hello
 ```
+
+## 参考：
+
+https://github.com/hyperium/tonic/blob/master/tonic-build/README.md
+
+https://github.com/hyperium/tonic/blob/master/examples/helloworld-tutorial.md
+
+https://www.swiftdiaries.com/rust/tonic/
